@@ -18,6 +18,8 @@
         #fetchall
         $books = $cmd->fetchAll();
 
+        $cmd->closeCursor();
+
         return $books;
     }
 
@@ -37,6 +39,8 @@
         #fetchAll
         $genres = $cmd->fetchAll();
 
+        $cmd->closeCursor();
+
         return $genres;
     }
 
@@ -53,6 +57,8 @@
         $cmd->execute();
 
         $book = $cmd->fetch();
+
+        $cmd->closeCursor();
 
         return $book;
     }
@@ -78,17 +84,66 @@
             $cmd->bindParam(":image_path", $book['image_path']);
             $cmd->bindParam(":review", $book['review']);
 
-            $result = $cmd->execute();
-            
-            if($result){
-                echo '<script>alert("Thank you for your posting!");<script>';
-            }else{
-                header("Location: error.php");
-            }
+            $cmd->execute();
+
+            $cmd->closeCursor();
+   
         }catch(Exception $e){
             header("Location: error.php");
         }
 
+    }
+
+    function update_book($book){
+
+        global $conn;
+
+        try{
+            $sql = "UPDATE tbl_books SET
+            title = :title, 
+            person_name = :person_name, 
+            person_email = :person_email, 
+            genre = :genre, 
+            link = :link, 
+            store = :store, 
+            image_path = :image_path, 
+            review = :review WHERE id = :id";
+
+            $cmd = $conn->prepare($sql);
+
+            #bind parameters
+            $cmd->bindParam(":title", $book['title']);
+            $cmd->bindParam(":person_name", $book['person_name']);
+            $cmd->bindParam(":person_email", $book['person_email']);
+            $cmd->bindParam(":genre", $book['genre']);
+            $cmd->bindParam(":link", $book['link']);
+            $cmd->bindParam(":store", $book['store']);
+            $cmd->bindParam(":image_path", $book['image_path']);
+            $cmd->bindParam(":review", $book['review']);
+            $cmd->bindParam(":id", $book['id']);
+
+            $cmd->execute();
+            $cmd->closeCursor();
+   
+        }catch(Exception $e){
+            header("Location: error.php");
+        }
+
+    }
+
+    #function to delete a book record by book_id
+    function delete_book($book_id){
+        global $conn;
+
+        $sql="DELETE FROM tbl_books WHERE id=:id LIMIT 1";
+
+        $cmd = $conn->prepare($sql);
+
+        $cmd->bindParam(":id", $book_id);
+
+        $cmd->execute();
+
+        $cmd->closeCursor();
     }
 
 ?>

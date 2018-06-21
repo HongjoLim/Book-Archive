@@ -16,7 +16,7 @@
 
     <div class="row">
         <div class="col-md-3 col-lg-3 " align="center"> 
-            <img alt="Book Picture" src="#" class="img-circle img-responsive"> 
+            <img alt="Book Picture" src="<?php echo UPLOADPATH.$book['image_path'];?>" class="img-circle img-responsive"> 
         </div>
         <div class=" col-md-9 col-lg-9 "> 
         <table class="table">
@@ -47,7 +47,7 @@
                 </tr>
             </tbody>
         </table>
-        <a class="btn btn-primary mr-3" role="button" href="update.php?id=<?php echo $book['id'];?>">Update</a>
+        <a class="btn btn-primary mr-" role="button" href="edit.php?id=<?php echo $book['id'];?>">Update</a>
         <a class="btn btn-primary mr-3" role="button" href="delete.php?id=<?php echo $book['id'];?>">Delete</a>
     </div>
 </div>

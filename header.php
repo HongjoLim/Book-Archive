@@ -1,5 +1,6 @@
 <?php 
 
+    include_once("private/global.php");
     #require "db_functions.php" file that has database CRUD functions in it
     require_once("private/db_functions.php");
 ?>
