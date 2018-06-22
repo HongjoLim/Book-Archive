@@ -1,8 +1,16 @@
 <?php 
 
-    include_once("private/global.php");
+    /*
+    This file is shared by most of pages
+    */
+
+    define("MAX_PIC_SIZE", 32786);
+    
     #require "db_functions.php" file that has database CRUD functions in it
     require_once("private/db_functions.php");
+
+    #start the buffer
+    ob_start();
 ?>
 
 <!DOCTYPE html>
@@ -50,4 +58,4 @@
 
         <!-- end of navigation menu -->
 
-<div class="container mt-3">
+<div class="container mt-5">

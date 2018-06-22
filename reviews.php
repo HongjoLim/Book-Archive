@@ -6,7 +6,6 @@
     $books = find_all_books();
 
 ?>
-
 <h3>Book Reviews</h3>
 <br/>
 <div class="container mb-3">

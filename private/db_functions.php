@@ -4,21 +4,29 @@
     require("db.php");
 
     function find_all_books(){
+        
         # $conn variable is already declared in "db.php" file
         global $conn;
 
-        $sql = "SELECT * FROM tbl_books";
+        try{
+
+            $sql = "SELECT * FROM tbl_books";
     
-        #prepare
-        $cmd = $conn->prepare($sql);
+            #prepare
+            $cmd = $conn->prepare($sql);
 
-        #execute
-        $cmd->execute();
+            #execute
+            $cmd->execute();
 
-        #fetchall
-        $books = $cmd->fetchAll();
+            #fetchall
+            $books = $cmd->fetchAll();
 
-        $cmd->closeCursor();
+            #close the connection
+            $cmd->closeCursor();
+
+        }catch(PDOException $e){
+            header('location: error.php');
+        }
 
         return $books;
     }
@@ -26,20 +34,25 @@
     function find_all_genres(){
         global $conn;
 
-        #select all the genres from the table "tbl_genre" in our database
-        $sql = "SELECT * FROM tbl_genre ORDER BY name";
+        try{
 
-        #prepare
-        $cmd = $conn->prepare($sql);
+            #select all the genres from the table "tbl_genre" in our database
+            $sql = "SELECT * FROM tbl_genre ORDER BY name";
 
-        #execute
-        $cmd->execute();
+            #prepare
+            $cmd = $conn->prepare($sql);
 
-        $genres = [];
-        #fetchAll
-        $genres = $cmd->fetchAll();
+            #execute
+            $cmd->execute();
 
-        $cmd->closeCursor();
+            $genres = [];
+            #fetchAll
+            $genres = $cmd->fetchAll();
+
+            $cmd->closeCursor();
+        }catch(PDOException $e){
+            header("Location: error.php");
+        }
 
         return $genres;
     }
@@ -48,17 +61,23 @@
     function find_book($book_id){
         global $conn;
 
-        $sql = "SELECT * FROM tbl_books WHERE id=:id LIMIT 1";
+        try{
 
-        $cmd = $conn->prepare($sql);
+            $sql = "SELECT * FROM tbl_books WHERE id=:id LIMIT 1";
 
-        $cmd->bindParam(':id', $book_id);
+            $cmd = $conn->prepare($sql);
 
-        $cmd->execute();
+            $cmd->bindParam(':id', $book_id, PDO::PARAM_INT);
 
-        $book = $cmd->fetch();
+            $cmd->execute();
 
-        $cmd->closeCursor();
+            $book = $cmd->fetch();
+
+            $cmd->closeCursor();
+
+        }catch(PDOException $e){
+            header("Location: error.php");
+        }
 
         return $book;
     }
@@ -68,6 +87,7 @@
         global $conn;
 
         try{
+       
             $sql = "INSERT INTO tbl_books(title, person_name, person_email, genre, 
             link, store, image_path, review) VALUES
             (:title, :person_name, :person_email, :genre, :link, :store, :image_path, :review)";
@@ -75,14 +95,14 @@
             $cmd = $conn->prepare($sql);
 
             #bind parameters
-            $cmd->bindParam(":title", $book['title']);
-            $cmd->bindParam(":person_name", $book['person_name']);
-            $cmd->bindParam(":person_email", $book['person_email']);
-            $cmd->bindParam(":genre", $book['genre']);
-            $cmd->bindParam(":link", $book['link']);
-            $cmd->bindParam(":store", $book['store']);
-            $cmd->bindParam(":image_path", $book['image_path']);
-            $cmd->bindParam(":review", $book['review']);
+            $cmd->bindParam(":title", $book['title'], PDO::PARAM_STR);
+            $cmd->bindParam(":person_name", $book['person_name'], PDO::PARAM_STR);
+            $cmd->bindParam(":person_email", $book['person_email'], PDO::PARAM_STR);
+            $cmd->bindParam(":genre", $book['genre'], PDO::PARAM_STR);
+            $cmd->bindParam(":link", $book['link'], PDO::PARAM_STR);
+            $cmd->bindParam(":store", $book['store'], PDO::PARAM_STR);
+            $cmd->bindParam(":image_path", $book['image_path'], PDO::PARAM_STR);
+            $cmd->bindParam(":review", $book['review'], PDO::PARAM_STR);
 
             $cmd->execute();
 
@@ -99,6 +119,7 @@
         global $conn;
 
         try{
+
             $sql = "UPDATE tbl_books SET
             title = :title, 
             person_name = :person_name, 
@@ -112,17 +133,18 @@
             $cmd = $conn->prepare($sql);
 
             #bind parameters
-            $cmd->bindParam(":title", $book['title']);
-            $cmd->bindParam(":person_name", $book['person_name']);
-            $cmd->bindParam(":person_email", $book['person_email']);
-            $cmd->bindParam(":genre", $book['genre']);
-            $cmd->bindParam(":link", $book['link']);
-            $cmd->bindParam(":store", $book['store']);
-            $cmd->bindParam(":image_path", $book['image_path']);
-            $cmd->bindParam(":review", $book['review']);
-            $cmd->bindParam(":id", $book['id']);
+            $cmd->bindParam(":title", $book['title'], PDO::PARAM_STR);
+            $cmd->bindParam(":person_name", $book['person_name'], PDO::PARAM_STR);
+            $cmd->bindParam(":person_email", $book['person_email'], PDO::PARAM_STR);
+            $cmd->bindParam(":genre", $book['genre'], PDO::PARAM_STR);
+            $cmd->bindParam(":link", $book['link'], PDO::PARAM_STR);
+            $cmd->bindParam(":store", $book['store'], PDO::PARAM_STR);
+            $cmd->bindParam(":image_path", $book['image_path'], PDO::PARAM_STR);
+            $cmd->bindParam(":review", $book['review'], PDO::PARAM_STR);
+            $cmd->bindParam(":id", $book['id'], PDO::PARAM_INT);
 
             $cmd->execute();
+            
             $cmd->closeCursor();
    
         }catch(Exception $e){
@@ -133,17 +155,25 @@
 
     #function to delete a book record by book_id
     function delete_book($book_id){
+        
         global $conn;
 
-        $sql="DELETE FROM tbl_books WHERE id=:id LIMIT 1";
+        try{
 
-        $cmd = $conn->prepare($sql);
+            $sql="DELETE FROM tbl_books WHERE id=:id LIMIT 1";
 
-        $cmd->bindParam(":id", $book_id);
+            $cmd = $conn->prepare($sql);
 
-        $cmd->execute();
+            $cmd->bindParam(":id", $book_id, PDO::PARAM_INT);
 
-        $cmd->closeCursor();
+            $cmd->execute();
+
+            $cmd->closeCursor();
+        
+        }catch(PDOException $e){
+        
+            header("location: error.php");
+        }
     }
 
 ?>
