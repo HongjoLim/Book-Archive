@@ -46,7 +46,7 @@
             <!-- card for 1 book review -->
             <div class="card mb-4 bg-light">
                 <div class="row">
-                    <div class="col-md-3 text-center p-2 mt-1">
+                    <div class="col-md-3 text-center p-3 mt-1">
                         <img class="img-responsive img-fluid" width="100" height="100" src="
                             <?php if(!empty($book->image_path)){echo $imagePath.$book->image_path;}
                                 else{echo "shared/img/post.png";?>" 

@@ -6,7 +6,7 @@
     $genres = Genre::getAll();
 
     # If the user is not logged in, send the user back to the reviews.php
-    if(!$user->is_logged()){
+    if(!isset($user)||!$user->is_logged()){
         header("Location:reviews.php");
     }
 
