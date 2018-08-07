@@ -9,12 +9,16 @@
     }
 
 ?>
-<div class="container p-4 ml-4 mr-4 mt-2">
+<div class="container p-4 mr-auto mt-2">
 
     <h4>Review Details</h4>
-    <div class="row mt-4">
-        <div class="col-md-3 col-lg-3 " align="center"> 
-            <img alt="Book Picture" width="200" height="300" src="<?php echo $imagePath.$book->image_path;?>" class="img-responsive"> 
+    <div class="row p-4">
+        <div class="col-md-3 col-lg-3 p-4 text-center" align="center"> 
+            <img alt="Book Picture" width="200" height="250" 
+                src="<?php if(!empty($book->image_path)){echo $imagePath.$book->image_path;}
+                else{echo "shared/img/post.png";?>" 
+                class="img-responsive img-fluid mt-1">
+                <?php echo '<p class="mt-4 text-muted text-center">Image not uploaded</p>';}?>
         </div>
         <div class=" col-md-9 col-lg-9 "> 
         <table class="table">

@@ -15,7 +15,7 @@
 ?>
 
 <!-- Page Content -->
-<div class="container p-4 ml-4 mr-4 mt-2 mr-auto">
+<div class="container p-4 mt-2 mb-4 mr-auto">
 
     <div class="row">
 
@@ -46,11 +46,12 @@
             <!-- card for 1 book review -->
             <div class="card mb-4 bg-light">
                 <div class="row">
-                    <div class="col-md-3">
-                        <img class="rounded img-fluid p-3 m-3" width="100" height="100" src="
+                    <div class="col-md-3 text-center p-2 mt-1">
+                        <img class="img-responsive img-fluid" width="100" height="100" src="
                             <?php if(!empty($book->image_path)){echo $imagePath.$book->image_path;}
-                                else{echo "shared/img/post.png";}?>" 
+                                else{echo "shared/img/post.png";?>" 
                             alt="<?php echo $book->title; ?>">
+                                <?php echo '<p class="mt-4 text-center text-muted">Image not uploaded</p>';}?>
                     </div>
                     <div class="col-md-9">
                         <div class="card-body">
@@ -81,9 +82,9 @@
         <!-- Sidebar Widgets Column -->
         <div class="col-md-4">
 
-            <div class="container text-center">
-                <p><img class="img-fluid rounded" src="shared/img/search.png" 
-                    width="150" height="150"/></p>
+            <div class="container text-center mt-4">
+                <img class="img-fluid img-responsive" src="shared/img/search.png" 
+                    width="150" height="150"/>
             </div>
 
             <!-- Search Widget -->
