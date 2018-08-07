@@ -15,7 +15,7 @@
 ?>
 
 <!-- Page Content -->
-<div class="container p-4 ml-4 mr-4 mt-2">
+<div class="container p-4 ml-4 mr-4 mt-2 mr-auto">
 
     <div class="row">
 
