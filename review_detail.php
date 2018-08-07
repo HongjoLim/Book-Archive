@@ -5,49 +5,76 @@
     if($_GET['id']){
 
         #find the book by its id using custom function
-        $book = find_book($_GET['id']);
+        $book = Book::get($_GET['id']);
     }
 
 ?>
+<div class="container p-4 ml-4 mr-4 mt-2">
 
-<h3>Book Details</h3>
-<br/>
-<div class="container mt-3 mb-3">
-
-    <div class="row">
+    <h4>Review Details</h4>
+    <div class="row mt-4">
         <div class="col-md-3 col-lg-3 " align="center"> 
-            <img alt="Book Picture" width="200" height="300" src="<?php echo $book['image_path'];?>" class="img-responsive"> 
+            <img alt="Book Picture" width="200" height="300" src="<?php echo $imagePath.$book->image_path;?>" class="img-responsive"> 
         </div>
         <div class=" col-md-9 col-lg-9 "> 
         <table class="table">
             <tbody>
                 <tr>
                     <td width="20%">Title</td>
-                    <td><?php echo $book['title'];?></td>
+                    <td><?php echo $book->title;?></td>
+                </tr>
+                <tr>
+                    <td width="20%">Genre</td>
+                    <td><?php echo $book->genre; ?></td>
                 </tr>
                 <tr>
                     <td width="20%">User Name</td>
-                    <td><?php echo $book['person_name'];?></td>
+                    <td><?php echo User::get($book->user_id)->name;?></td>
                 </tr>
                 <tr>
                     <td width="20%">User Email</td>
-                    <td><?php echo $book['person_email'];?></td>
+                    <td><?php echo User::get($book->user_id)->email;?></td>
                 </tr>
                 <tr>
                     <td width="20%">Link</td>
-                    <td><?php echo $book['link'];?></td>
+                    <td><?php echo $book->link;?></td>
                 </tr>
                 <tr>
                     <td width="20%">Store</td>
-                    <td><?php echo $book['store'];?></td>
+                    <td><?php echo $book->store;?></td>
                 </tr>
                 <tr>
                     <td width="20%">Review</td>
-                    <td><p><?php echo $book['review'];?></p></td>
+                    <td><p><?php echo $book->review;?></p></td>
                 </tr>
             </tbody>
         </table>
-        <a class="btn btn-primary mr-" role="button" href="edit.php?id=<?php echo $book['id'];?>">Update</a>
-        <a class="btn btn-primary mr-3" role="button" href="delete.php?id=<?php echo $book['id'];?>" onclick="return confirm('Are you sure?');">Delete</a>
+
+    <!-- update and delete button is only visible when the user is logged in -->
+    <?php if($user!==null&&$user->is_logged()&&$user->id==$book->user_id):?>
+    <div class="btn-group">
+        <div class="row">
+            <div class="col-md-6">
+                <!-- start of update button -->
+                <form action="post.php" method="post">
+                    <button type="submit" class="btn btn-dark text-white mr-3">Update</button>
+                    <input type="hidden" name="id" value="<?php echo $book->id;?>"/>
+                </form>
+                <!-- end of update button -->
+            </div>
+            <div class="col-md-6">
+                <!-- start of delete button -->
+                <form action="Controller/book_controller.php" method="post">
+                    <input type="hidden" name="id" value="<?php echo $book->id;?>"/> 
+                    <button type="submit" class="btn btn-dark text-white" onclick="confirm('Are you sure?');">Delete</button>
+                    <input type="hidden" name="action" value="delete_book"/>
+                </form>
+                <!-- end of delete button -->
+            </div>
+        </div>
     </div>
+
+    <!-- end of delete & update button -->
+    <?php endif; ?>
+
 </div>

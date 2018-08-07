@@ -2,39 +2,128 @@
 
     include("header.php");
 
-    //find all books using custom function
-    $books = find_all_books();
+    $whereCondition = NULL;
 
+    # If where condition has been passed from previous page, grab it
+    if(isset($_SESSION['whereCondition'])){
+        $whereCondition = $_SESSION['whereCondition'];
+        unset($_SESSION['whereCondition']);
+    }
+
+    $books = Book::getAll($whereCondition);
+    $genres = Genre::getAll();
 ?>
-<h3>Book Reviews</h3>
-<br/>
-<div class="container mb-3">
-    <a class="btn btn-primary" href="post.php" role="button">POST</a>
-</div>
 
-<!-- start of the book table -->
-<div class="table-responsive">
-    <table class="table table-condensed table-bordered table-hover">
-        <thead>
-            <tr>
-                <th class="text-center" width="5%">Number</th>
-                <th class="text-center" width="70%">Title</th>
-                <th class="text-center" width="15%">Name</th>
-            </tr>
-        </thead>
-            <?php 
-                #variable for the number of posting in the table
-                $i=1;
-                foreach($books as $book) :
-            ?>
-            <tr>
-                <td class="text-center"><?php echo $i++; ?></td>
-                <td class="text-left p-3"><a href="review_detail.php?id=<?php echo $book['id'];?>"><?php echo $book['title']; ?></a></td>
-                <td class="text-center"><?php echo $book['person_name']; ?></td>
-            </tr>
-                <?php endforeach; #the end of foreach loop ?>
-    </table>
+<!-- Page Content -->
+<div class="container p-4 ml-4 mr-4 mt-2">
+
+    <div class="row">
+
+        <!-- entire left column -->
+        <div class="col-md-8">
+
+            <div class="row">
+                <div class="col-md-5">
+                    <h4>Reviews</h4>
+                </div>
+                <div class="col-md-7">
+                    <!-- If the user is logged in, make post button visible -->
+                
+                    <!-- post button OR message to log in for posting -->
+                    <?php if(isset($user)&&$user->is_logged()) { ?>
+                        <p class="text-right"><a href="post.php" class="btn btn-dark text-light">Post</a></p>
+                    <?php }else{ ?>
+                    <p class=" h6 text-right text-muted mt-2">Please Sign In to Post!</p>
+                    <?php } ?>
+
+                <!-- post button -->
+                </div>
+            </div>
+
+            <!-- Book Reviews -->
+            <?php foreach($books as $book): ?>
+
+            <!-- card for 1 book review -->
+            <div class="card mb-4 bg-light">
+                <div class="row">
+                    <div class="col-md-3">
+                        <img class="rounded img-fluid p-3 m-3" width="100" height="100" src="
+                            <?php if(!empty($book->image_path)){echo $imagePath.$book->image_path;}
+                                else{echo "shared/img/post.png";}?>" 
+                            alt="<?php echo $book->title; ?>">
+                    </div>
+                    <div class="col-md-9">
+                        <div class="card-body">
+                            <h4 class="card-title"><?php echo $book->title; ?></h4>
+                            <p class="card-text"><?php echo $book->review; ?></p>
+                            <a href="review_detail.php?id=<?php echo $book->id; ?>" class="btn btn-outline-dark">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <?php endforeach; ?>
+
+
+            <!-- Pagination -->
+            <ul class="pagination justify-content-center mb-4">
+                <li class="page-item">
+                    <a class="page-link" href="#">&larr; Older</a>
+                </li>
+                <li class="page-item disabled">
+                    <a class="page-link" href="#">Newer &rarr;</a>
+                </li>
+            </ul>
+
+        </div>
+        <!-- entire left column -->
+
+        <!-- Sidebar Widgets Column -->
+        <div class="col-md-4">
+
+            <div class="container text-center">
+                <p><img class="img-fluid rounded" src="shared/img/search.png" 
+                    width="150" height="150"/></p>
+            </div>
+
+            <!-- Search Widget -->
+            <div class="card my-4">
+                <h5 class="card-header">Search</h5>
+                <div class="card-body">
+                    <div class="input-group">
+                        <form class="form-inline" action="Controller/search_controller.php" method="POST">
+                            <input type="hidden" name="action" value="title_search"/>
+                            <input type="text" class="form-control" name="search" placeholder="Search for...">
+                            <input class="btn btn-secondary" type="submit" value="Search"/>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories Widget -->
+            <div class="card my-4">
+                <h5 class="card-header">Genres</h5>
+                <div class="card-body">
+                    <div class="row">
+                        <div>
+                            <form action="Controller/search_controller.php" method="POST">
+                                <input type="hidden" value="genre_search" name="action"/>
+                                <ul>
+                                <?php foreach($genres as $genre):?>
+                                    <li>
+                                        <input type="submit" name="search" class="btn btn-link" value="<?php echo $genre->name;?>"/>
+                                    </li>
+                                    <?php endforeach; ?>
+                                </ul>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<!-- container -->
 
 <?php 
 
