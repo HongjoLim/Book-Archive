@@ -19,7 +19,7 @@
         # Custom function to get database connection
         static public function db_connect(){
 
-        /*
+        
             try{
 
                 #instantiate PDO object
@@ -35,10 +35,10 @@
                 #show customized error page
                 header("error.php");
             }
-        */
+        
 
-            static::$conn = 
-                new PDO("mysql:host=localhost;dbname=comp1006", "root", "");
+            #static::$conn = 
+                #new PDO("mysql:host=localhost;dbname=comp1006", "root", "");
 
         }
 
