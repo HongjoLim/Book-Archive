@@ -84,12 +84,7 @@
                 <a class="navbar-brand" href="index.php">
                 <h3>Book Archive</h3></a>
             </span>
-            <button class="navbar-toggler" type="button" 
-                data-toggle="collapse" data-target="#navbarSupportedContent" 
-                aria-controls="navbarSupportedContent" aria-expanded="false"
-                aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-            </button>
+            
             <!-- ./logo and navbar-brand -->
 
             <!-- 'Sign in' & 'Sign out' OR 'Log out' button -->
