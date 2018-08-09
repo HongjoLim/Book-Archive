@@ -3,7 +3,7 @@
     require_once("header.php");
 
     # Get the list of all genres by using a custom method in DatabaseObject class
-    $genres = Genre::getAll();
+    $genres = Genre::getAll( "ORDER BY name");
 
     # If the user is not logged in, send the user back to the reviews.php
     if(!isset($user)||!$user->is_logged()){

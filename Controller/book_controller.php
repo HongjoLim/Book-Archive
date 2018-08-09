@@ -8,7 +8,7 @@
     session_start();
 
     # Constant for maximum picture size
-    define("MAX_PIC_SIZE", "30000");
+    define("MAX_PIC_SIZE", "300000");
 
     /* 
         If the request is not POST, it is invalid entry, 
@@ -39,12 +39,13 @@
         # After all the validation check, if null is passed, finish the script
         if($book===null){
             $_SESSION['message'] = "Unable to Post!";
-            header("Location:../post.php");
+            header("Location:../reviews.php");
             exit();
         }
     }else{
 
         $book = Book::get((int)$_POST['id']);
+
     }
 
     switch ($action){
@@ -114,6 +115,12 @@
             if(!$file_ok){
                 return null;
             }
+        }else if(!empty($book->image_path)){
+            /* 
+                To prevent losing the original image path 
+                when the user does not input the path
+            */
+            $args['image_path'] = $book->image_path;
         }
 
         /* 

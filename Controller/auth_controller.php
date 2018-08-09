@@ -31,12 +31,15 @@
     $action = filter_input(INPUT_POST, 'action');
 
     if($action=="sign_in"||$action=="sign_up"){
+
         # Custom method to grab user's inputs and store that in a variable
         $args = grab_user_inputs();
+
          # Make a user object and populate the properties
         if($args!=null){
             $user = new User($args);
         }else{
+            #Store the message in the SESSION array
             $_SESSION['message'] = "Please try again!";
             header("Location:../index.php");
         }
@@ -83,8 +86,10 @@
 
             if($user!==null){
 
-                #Log in successful
+                # Log in successful
                 $_SESSION['user_id'] = $user->id;
+
+                # Store Greeting message with the last inserted row id
                 $_SESSION['message'] = "Welcome ".$user->name."!";
                 header("Location:../index.php");
             }else{
@@ -119,6 +124,5 @@
             break;
 
     }
-
 
 ?>

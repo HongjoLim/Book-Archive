@@ -12,13 +12,15 @@
 <div class="container p-4 mr-auto mt-2">
 
     <h4>Review Details</h4>
+    <!-- go back to reviews button -->
+    <a class="btn btn-outline-dark mt-2 mb-4" href="reviews.php">Back To List</a>
+    <!-- go back to reviews button-->
     <div class="row p-4">
-        <div class="col-md-3 col-lg-3 p-4 text-center" align="center"> 
+        <div class="col-md-3 col-lg-3 p-2 text-center mt-4" align="center"> 
             <img alt="Book Picture" width="200" height="250" 
                 src="<?php if(!empty($book->image_path)){echo $imagePath.$book->image_path;}
-                else{echo "shared/img/post.png";?>" 
-                class="img-responsive img-fluid mt-1">
-                <?php echo '<p class="mt-4 text-muted text-center">Image not uploaded</p>';}?>
+                else{echo "shared/img/post.png";}?>"
+                class="img-fluid mt-1">
         </div>
         <div class=" col-md-9 col-lg-9 "> 
         <table class="table">

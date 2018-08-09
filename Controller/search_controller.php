@@ -44,7 +44,7 @@
         case "genre_search":
 
             # This is because ONLY 1 string value (genre name) has been passed
-            $whereCondition = " genre = '$search'";
+            $whereCondition = " WHERE genre = '$search'";
 
             break;
 
@@ -55,7 +55,7 @@
         case "title_search":
             $words = explode(' ', $search);
 
-            $whereCondition = " title LIKE ";
+            $whereCondition = " WHERE title LIKE ";
 
             foreach($words as $word){
                 $whereCondition .= "'%$word%' OR ";
@@ -70,6 +70,9 @@
 
     # Store the where condition in the session(I do not know the better way..)
     $_SESSION['whereCondition'] = $whereCondition;
+
+    # Store search in the session
+    $_SESSION['search'] = $search;
     header("Location:../reviews.php");
 
 ?>

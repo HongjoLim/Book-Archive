@@ -3,15 +3,34 @@
     include("header.php");
 
     $whereCondition = NULL;
+    $search = NULL;
 
     # If where condition has been passed from previous page, grab it
     if(isset($_SESSION['whereCondition'])){
         $whereCondition = $_SESSION['whereCondition'];
+        # Unset the value in the session array
         unset($_SESSION['whereCondition']);
     }
 
+    /* 
+        If the search keywords have been passed from previous page in SESSION array,
+        Grab the information
+    */
+
+    if(isset($_SESSION['search'])){
+        $search = $_SESSION['search'];
+        # Unset the value in the session array
+        unset($_SESSION['search']);
+    }
+
+    # Get all the book reviews
     $books = Book::getAll($whereCondition);
-    $genres = Genre::getAll();
+
+    /*
+        Get all the genres (for side nav bar)
+        And sort them passing the where clause as the optional parameter
+    */
+    $genres = Genre::getAll(" ORDER BY name");
 ?>
 
 <!-- Page Content -->
@@ -39,6 +58,9 @@
                 <!-- post button -->
                 </div>
             </div>
+            <?php if($search!==null){
+                    echo '<p>You searched for <strong>'.$search.'</strong></p>';
+                }?>
 
             <!-- Book Reviews -->
             <?php foreach($books as $book): ?>
@@ -46,12 +68,11 @@
             <!-- card for 1 book review -->
             <div class="card mb-4 bg-light">
                 <div class="row">
-                    <div class="col-md-3 text-center p-3 mt-1">
-                        <img class="img-responsive img-fluid" width="100" height="100" src="
+                    <div class="col-md-3 text-center p-3 mt-2">
+                        <img width="100" height="100" src="
                             <?php if(!empty($book->image_path)){echo $imagePath.$book->image_path;}
-                                else{echo "shared/img/post.png";?>" 
+                                else{echo "shared/img/post.png";}?>" 
                             alt="<?php echo $book->title; ?>">
-                                <?php echo '<p class="mt-4 text-center text-muted">Image not uploaded</p>';}?>
                     </div>
                     <div class="col-md-9">
                         <div class="card-body">
@@ -66,7 +87,7 @@
             <?php endforeach; ?>
 
 
-            <!-- Pagination -->
+            <!-- Pagination (NOT finished)-->
             <ul class="pagination justify-content-center mb-4">
                 <li class="page-item">
                     <a class="page-link" href="#">&larr; Older</a>
@@ -75,6 +96,7 @@
                     <a class="page-link" href="#">Newer &rarr;</a>
                 </li>
             </ul>
+            <!-- ./Pagination -->
 
         </div>
         <!-- entire left column -->
@@ -110,6 +132,7 @@
                             <form action="Controller/search_controller.php" method="POST">
                                 <input type="hidden" value="genre_search" name="action"/>
                                 <ul>
+                                <!-- Loop through all the genres -->
                                 <?php foreach($genres as $genre):?>
                                     <li>
                                         <input type="submit" name="search" class="btn btn-link" value="<?php echo $genre->name;?>"/>
@@ -126,8 +149,4 @@
 </div>
 <!-- container -->
 
-<?php 
-
-    include("footer.php");
-
-?>
+<?php include("footer.php"); ?>

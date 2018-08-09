@@ -26,16 +26,16 @@
             <img src="shared/img/books.png" class="rounded mx-auto d-block" width="100" height="100"/>
             <p class="h3 text-center mt-4 mb-4">REVIEW</p>
             <div class="container mr-auto">
-            <p class="text-center"><a class="btn btn-outline-dark col-md-2" href="reviews.php"/>GO</a></p>
+            <p class="text-center"><a class="btn btn-secondary col-md-2" href="reviews.php"/>GO</a></p>
             </div>
         </div>
 
         <!-- if the user is not logged in, the user cannot post -->
         <?php if(isset($user)&&$user->is_logged()) :?>
         <div class="container col-md-6 mt-4 mb-4"/>
-            <img src="shared/img/post.png" class="rounded mx-auto d-block" width="100" height="100"/>
+            <img src="shared/img/notepad.png" class="rounded mx-auto d-block" width="100" height="100"/>
             <p class="h3 text-center mt-4 mb-4">POST</p>
-            <p class="text-center"><a class="btn btn-outline-dark col-md-2"
+            <p class="text-center"><a class="btn btn-secondary col-md-2"
                 href="post.php"/>GO</a></p>
         </div>
         <?php endif; ?>

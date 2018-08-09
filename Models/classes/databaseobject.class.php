@@ -88,7 +88,7 @@
             $sql = "SELECT * FROM ".static::$tableName;
 
             if(!empty($whereCondition)){
-                $sql .= " WHERE ".$whereCondition;
+                $sql .= " ".$whereCondition;
             }
 
             # Prepare

@@ -90,6 +90,7 @@
             <!-- 'Sign in' & 'Sign out' OR 'Log out' button -->
             <div class="btn-group">
             <?php if(isset($user)&&$user->is_logged()){ ?>
+                <span class="mt-2 p-2"><p class="h5 text-white mr-4"><?php echo $user->name;?></p></span>
                 <!-- create form tag to send post request in case of 'logout' -->
                 <form action="Controller/auth_controller.php" method="post">
                     <input type="hidden" name="action" value="logout"/>
