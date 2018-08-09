@@ -56,7 +56,9 @@
             </tbody>
         </table>
 
-    <!-- update and delete button is only visible when the user is logged in -->
+    <!--NOTICE:
+        update and delete button is visible 
+        ONLY when THE SAME USER WHO POSTED THE BOOK is logged in -->
     <?php if($user!==null&&$user->is_logged()&&$user->id==$book->user_id):?>
     <div class="btn-group">
         <div class="row">

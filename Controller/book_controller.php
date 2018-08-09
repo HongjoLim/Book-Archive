@@ -115,12 +115,7 @@
             if(!$file_ok){
                 return null;
             }
-        }else if(!empty($book->image_path)){
-            /* 
-                To prevent losing the original image path 
-                when the user does not input the path
-            */
-            $args['image_path'] = $book->image_path;
+
         }
 
         /* 

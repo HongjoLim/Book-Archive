@@ -30,7 +30,7 @@
             </div>
         </div>
 
-        <!-- if the user is not logged in, the user cannot post -->
+        <!-- if the user is NOT logged in, the user CANNOT POST -->
         <?php if(isset($user)&&$user->is_logged()) :?>
         <div class="container col-md-6 mt-4 mb-4"/>
             <img src="shared/img/notepad.png" class="rounded mx-auto d-block" width="100" height="100"/>

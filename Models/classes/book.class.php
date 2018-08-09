@@ -41,7 +41,10 @@
                 $this->link = $args['link'];
                 $this->store = $args['store'];
                 $this->review = $args['review'];
-                $this->image_path = $args['image_path'];  
+                
+                if(!empty($args['image_path'])){
+                    $this->image_path = $args['image_path'];  
+                }
               
             }
         }
